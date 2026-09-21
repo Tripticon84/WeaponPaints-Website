@@ -1,4 +1,4 @@
-FROM php:8.2-apache
+FROM php:8.5-apache
 
 # Environment variables
 ENV SKIN_LANGUAGE=skins_en
