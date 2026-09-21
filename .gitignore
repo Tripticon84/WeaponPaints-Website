@@ -1,0 +1,10 @@
+# System files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Misc
+*.log
+
+# Local secrets
+.env

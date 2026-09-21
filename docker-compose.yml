@@ -1,0 +1,45 @@
+services:
+  website:
+    # build: .
+    container_name: weaponpaints-website
+    image: tripticon84/weaponpaints-website:latest
+    ports:
+      - "8080:80"
+    # volumes:
+    #   - .:/var/www/html
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3307
+      - DB_NAME=weaponpaints
+      - DB_USER=userdb
+      - DB_PASS=password
+      - SKIN_LANGUAGE=skins_en
+      - STEAM_API_KEY=${STEAM_API_KEY:?Set STEAM_API_KEY in the .env file}
+      - STEAM_DOMAIN_NAME=http://localhost:8080
+      - STEAM_LOGOUT_PAGE=http://localhost:8080
+      - STEAM_LOGIN_PAGE=http://localhost:8080
+    depends_on:
+      - mysql
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    container_name: weapon_db
+    environment:
+      - MYSQL_DATABASE=weaponpaints
+      - MYSQL_USER=userdb
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=rootpassword
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db_data:
