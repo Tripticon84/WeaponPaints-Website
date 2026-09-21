@@ -2,14 +2,14 @@ services:
   website:
     # build: .
     container_name: weaponpaints-website
-    image: tripticon84/weaponpaints-website:latest
+    image: ghcr.io/tripticon84/weaponpaints-website:latest
     ports:
       - "8080:80"
     # volumes:
     #   - .:/var/www/html
     environment:
       - DB_HOST=mysql
-      - DB_PORT=3307
+      - DB_PORT=3306
       - DB_NAME=weaponpaints
       - DB_USER=userdb
       - DB_PASS=password

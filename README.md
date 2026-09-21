@@ -2,7 +2,8 @@
 
 This repo is an **automatic mirror** of the `website/` folder of Nereziel's
 [cs2-WeaponPaints](https://github.com/Nereziel/cs2-WeaponPaints) plugin,
-packaged as a ready-to-use Docker image.
+packaged as a ready-to-use Docker image published on the GitHub Container
+Registry (GHCR).
 
 The sources here come from the `WeaponPaints-Website.zip` asset of the latest
 upstream release (see the `.upstream-release` file).
@@ -13,8 +14,8 @@ The workflow [`.github/workflows/update.yml`](.github/workflows/update.yml):
 
 1. checks the latest upstream release every **Monday at 08:00 UTC** (cron);
 2. downloads and syncs `WeaponPaints-Website.zip` when the tag changed;
-3. commits the updated sources;
-4. builds and pushes the Docker image to Docker Hub.
+3. builds and pushes the Docker image to GHCR;
+4. commits the updated sources.
 
 Files owned by this repo are never overwritten by the sync:
 
@@ -30,17 +31,19 @@ Files owned by this repo are never overwritten by the sync:
 **Actions** tab → *Sync upstream & build Docker image* → **Run workflow**
 (`force` option to rebuild even when already up to date).
 
-### Required secrets
+### No secrets required
 
-| Secret | Value |
-| --- | --- |
-| `DOCKERHUB_USERNAME` | Docker Hub username |
-| `DOCKERHUB_TOKEN` | Docker Hub access token (*Read & Write*) |
+The workflow authenticates to GHCR with the built-in `GITHUB_TOKEN`
+(`packages: write` permission), so there is nothing to configure.
 
 ## Published images
 
-- `tripticon84/weaponpaints-website:latest` — latest release
-- `tripticon84/weaponpaints-website:build-XXX` — pinned version
+- `ghcr.io/tripticon84/weaponpaints-website:latest` — latest release
+- `ghcr.io/tripticon84/weaponpaints-website:build-XXX` — pinned version
+
+> The package is **private** by default on its first push. To allow anonymous
+> pulls, open your GitHub profile → **Packages** → `weaponpaints-website` →
+> *Package settings* → *Change visibility* → **Public**.
 
 ## Usage
 
@@ -56,6 +59,6 @@ which is git-ignored. See `docker-compose.yml` for the rest of the configuration
 
 ## Setup note
 
-For the workflow to be able to commit the synced sources,
+For the workflow to be able to push the image and commit the synced sources,
 `Settings → Actions → General → Workflow permissions` must be set to
 **Read and write permissions**.
