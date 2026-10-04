@@ -138,7 +138,7 @@ jobs:
       # nothing is committed and the next run retries the sync.
       - name: Build and push the image
         if: steps.chk.outputs.skip == 'false'
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           platforms: linux/amd64
