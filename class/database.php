@@ -5,9 +5,7 @@ class DataBase {
 
     public function __construct() {
         try {
-            // PDO::MYSQL_ATTR_INIT_COMMAND is deprecated since PHP 8.5 in favour of Pdo\Mysql::ATTR_INIT_COMMAND
-            $initCommand = defined('Pdo\Mysql::ATTR_INIT_COMMAND') ? constant('Pdo\Mysql::ATTR_INIT_COMMAND') : PDO::MYSQL_ATTR_INIT_COMMAND;
-            $this->PDO = new PDO("mysql:host=".DB_HOST."; port=".DB_PORT."; dbname=".DB_NAME, DB_USER, DB_PASS, array($initCommand => "SET NAMES utf8"));
+            $this->PDO = new PDO("mysql:host=".DB_HOST."; port=".DB_PORT."; dbname=".DB_NAME, DB_USER, DB_PASS, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
         }
         catch(PDOException $ex)
         {
